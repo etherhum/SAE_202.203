@@ -44,6 +44,9 @@ public class Scenario {
             ligne = bufferEntree.readLine();
             if(ligne != null){
                 tokenizer = new StringTokenizer(ligne, " ->");
+                while (tokenizer.hasMoreTokens()){
+                    System.out.println(tokenizer.nextToken());
+                }
             }
         }
         while(ligne != null);
