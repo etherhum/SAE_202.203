@@ -1,4 +1,4 @@
-package com.main.sae_202_203;
+package com.modele.sae_202_203;
 
 import java.io.*;
 import java.util.ArrayList;
