@@ -4,40 +4,69 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Distance {
-    String[][] distances;
+    Map<String, Integer> villes;
+    int[][] tabDistances;
 
     public Distance() {
-        distances = new String[29][30];
+        tabDistances = new int[29][29];
+        villes = new HashMap<>();
     }
 
-    public static String[][] ajoutDistances(File fichier) throws IOException {
-        String[][] distances = new String[29][30];
-
+    public Map<String, Integer> ajoutVilles(File fichier) throws IOException {
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
         String ligne;
         StringTokenizer tokenizer;
-
+        ArrayList<String> arrayfile = new ArrayList<>();
+        do {
+            ligne = bufferEntree.readLine();
+            if (ligne != null) {
+                tokenizer = new StringTokenizer(ligne, " ");
+                arrayfile.add(tokenizer.nextToken());
+            }
+        } while (ligne != null);
         int a = 0;
-        int b = 1;
-        while (a != 29) {
-            do {
-                ligne = bufferEntree.readLine();
-                if (ligne != null) {
-                    tokenizer = new StringTokenizer(ligne, " ");
-                    distances[a][0] = tokenizer.nextToken();
-                    while (b != 30) {
-                        distances[a][b] = tokenizer.nextToken();
-                        b++;
-                    }
-                    b = 1;
-                    a++;
-                }
-            } while (ligne != null);
+        while (a != arrayfile.size()) {
+            villes.put(arrayfile.get(a), a);
+            a++;
         }
         bufferEntree.close();
-        return distances;
+        return villes;
+    }
+
+    public int[][] ajoutDistances(File fichier) throws IOException {
+        ajoutVilles(fichier);
+        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
+        String ligne;
+        StringTokenizer tokenizer;
+        ArrayList<String> arrayfile = new ArrayList<>();
+        do {
+            ligne = bufferEntree.readLine();
+            if (ligne != null) {
+                tokenizer = new StringTokenizer(ligne, " ");
+                while(tokenizer.hasMoreTokens()){
+                    arrayfile.add(tokenizer.nextToken());
+                }
+
+            }
+        } while (ligne != null);
+        int a = 0;
+        while (a != arrayfile.size()) {
+            if(arrayfile.get(a).matches(".*[a-z].*")){
+                arrayfile.remove(a);
+            }
+            a++;
+        }
+
+        int x=0;
+        for(int b=0; b<tabDistances.length; b++){
+            for(int c=0; c< tabDistances.length; c++){
+                tabDistances[b][c]=Integer.parseInt(arrayfile.get(x));
+                x++;
+            }
+        }
+        return tabDistances;
     }
 }
