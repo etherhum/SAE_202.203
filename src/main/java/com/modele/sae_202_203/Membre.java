@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class Membre {
-    Map<String, String> membres;
+    Map<String, String> membres; //Structure Membre:Ville
 
     public Membre() {
         membres = new HashMap<>();
