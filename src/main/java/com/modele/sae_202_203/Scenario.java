@@ -79,4 +79,10 @@ public class Scenario {
         bufferEntree.close();
         return scenario;
     }
+
+    public static ArrayList<String> afficherDistances(Scenario scenario){
+        ArrayList<String> resultat = new ArrayList<>();
+        resultat.add(scenario.getAcheteurs().toString() + " -- " + scenario.getVendeurs().toString() + "// Distance:");
+        return resultat;
+    }
 }

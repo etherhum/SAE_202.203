@@ -22,10 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class HBoxRoot extends HBox {
-    File scenarioFichier = new File("/Users/soulja/Desktop/Fichiers/scenario_0.txt");
-    File membresFichier = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
-    File distanceFichier = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
-    Scenario scenario = Scenario.listeScenarios(scenarioFichier);
+    File membresFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\membres_APLI.txt");
+    File distanceFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\distances.txt");
     Membre membre = new Membre();
     Distance distance = new Distance();
     Main main = new Main();
@@ -82,7 +80,7 @@ public class HBoxRoot extends HBox {
 
         //Groupe "Choix du scénario"
         Label txtChoisirScenario = new Label("Scénarios");
-        File f = new File("/Users/soulja/Desktop/Fichiers");
+        File f = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02");
         fichiers = f.listFiles();
         ArrayList<String> listeNomfichiers = new ArrayList<>();
         for (int i = 0; i < fichiers.length; i++) {
@@ -94,28 +92,25 @@ public class HBoxRoot extends HBox {
         vboxScenario.setSpacing(10);
 
         Label txtChoix = new Label();
-
         Button boutonValider = new Button("Valider");
         boutonValider.setFocusTraversable(false);
         boutonValider.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Node source = (Node) actionEvent.getSource();
-                Window theStage = source.getScene().getWindow();
-
                 if(cbScenarios.getValue()==null){
-                    Popup popup = new Popup();
-                    popup.show(theStage);
+                    txtChoix.setText("Erreur: Aucun scénario sélectionné");
                 } else {
-                    txtChoix.setText(cbScenarios.getValue().toString());
+                    File scenarioFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\" + cbScenarios.getValue().toString());
+                    Scenario scenario = new Scenario();
+                    try {
+                        scenario = Scenario.listeScenarios(scenarioFichier);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    txtChoix.setText(Scenario.afficherDistances(scenario).toString());
                 }
             }
         });
-
-
-
-
-
         membresPane.add(labelMembres,0,1);
         membresPane.add(paneMembres,0,2);
         membresPane.add(labelVilles, 1, 1);
@@ -123,7 +118,6 @@ public class HBoxRoot extends HBox {
         membresPane.add(vboxScenario, 0, 3);
         membresPane.add(boutonValider, 0, 4);
         membresPane.add(txtChoix, 1, 3);
-
 
         getChildren().addAll(membresPane);
 
