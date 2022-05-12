@@ -3,19 +3,22 @@ package com.vue.sae_202_203;
 import com.modele.sae_202_203.Distance;
 import com.modele.sae_202_203.Membre;
 import com.modele.sae_202_203.Scenario;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class HBoxRoot extends HBox {
@@ -25,6 +28,7 @@ public class HBoxRoot extends HBox {
     Scenario scenario = Scenario.listeScenarios(scenarioFichier);
     Membre membre = new Membre();
     Distance distance = new Distance();
+    Main main = new Main();
     File f = null;
     File[] fichiers;
 
@@ -89,8 +93,24 @@ public class HBoxRoot extends HBox {
         HBox vboxScenario = new HBox(txtChoisirScenario, cbScenarios);
         vboxScenario.setSpacing(10);
 
+        Label txtChoix = new Label();
+
         Button boutonValider = new Button("Valider");
         boutonValider.setFocusTraversable(false);
+        boutonValider.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Node source = (Node) actionEvent.getSource();
+                Window theStage = source.getScene().getWindow();
+
+                if(cbScenarios.getValue()==null){
+                    Popup popup = new Popup();
+                    popup.show(theStage);
+                } else {
+                    txtChoix.setText(cbScenarios.getValue().toString());
+                }
+            }
+        });
 
 
 
@@ -100,8 +120,9 @@ public class HBoxRoot extends HBox {
         membresPane.add(paneMembres,0,2);
         membresPane.add(labelVilles, 1, 1);
         membresPane.add(paneVille, 1, 2);
-        membresPane.add(vboxScenario, 0, 5);
-        membresPane.add(boutonValider, 0, 6);
+        membresPane.add(vboxScenario, 0, 3);
+        membresPane.add(boutonValider, 0, 4);
+        membresPane.add(txtChoix, 1, 3);
 
 
         getChildren().addAll(membresPane);
