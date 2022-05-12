@@ -20,10 +20,11 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HBoxRoot extends HBox {
-    File membresFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\membres_APLI.txt");
-    File distanceFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\distances.txt");
+    File membresFichier = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
+    File distanceFichier = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
     Membre membre = new Membre();
     Distance distance = new Distance();
     Main main = new Main();
@@ -80,7 +81,7 @@ public class HBoxRoot extends HBox {
 
         //Groupe "Choix du scénario"
         Label txtChoisirScenario = new Label("Scénarios");
-        File f = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02");
+        File f = new File("/Users/soulja/Desktop/Fichiers");
         fichiers = f.listFiles();
         ArrayList<String> listeNomfichiers = new ArrayList<>();
         for (int i = 0; i < fichiers.length; i++) {
@@ -100,14 +101,23 @@ public class HBoxRoot extends HBox {
                 if(cbScenarios.getValue()==null){
                     txtChoix.setText("Erreur: Aucun scénario sélectionné");
                 } else {
-                    File scenarioFichier = new File("C:\\Users\\pmontagn\\Documents\\Fichiers Saé 2.01 - 2.02\\" + cbScenarios.getValue().toString());
+                    File scenarioFichier = new File("/Users/soulja/Desktop/Fichiers/" + cbScenarios.getValue().toString());
                     Scenario scenario = new Scenario();
+                    File distancesFichier = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
                     try {
                         scenario = Scenario.listeScenarios(scenarioFichier);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    txtChoix.setText(Scenario.afficherDistances(scenario).toString());
+                    String resultat = null;
+                    try {
+                        System.out.println(Scenario.convertirDistances(scenario, membresFichier));
+                        //resultat = Scenario.calculerDistances(scenario, distancesFichier).toString();
+                        //System.out.println(resultat);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    txtChoix.setText(resultat);
                 }
             }
         });

@@ -15,6 +15,9 @@ public class Distance {
         villes = new HashMap<>();
     }
 
+    public Map<String, Integer> getVilles(){ return villes; }
+    public int[][] getTabDistances(){ return tabDistances; }
+
     public Map<String, Integer> ajoutVilles(File fichier) throws IOException {
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
         String ligne;

@@ -38,27 +38,6 @@ public class Scenario {
         acheteurs.add(acheteur);
     }
 
-    public static Scenario lectureScenario (File fichier) throws IOException{
-        Scenario scenario = new Scenario();
-
-        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
-        String ligne;
-
-        StringTokenizer tokenizer;
-        do {
-            ligne = bufferEntree.readLine();
-            if(ligne != null){
-                tokenizer = new StringTokenizer(ligne, " ->");
-                while (tokenizer.hasMoreTokens()){
-                    System.out.println(tokenizer.nextToken());
-                }
-            }
-        }
-        while(ligne != null);
-        bufferEntree.close();
-        return scenario;
-    }
-
     public static Scenario listeScenarios(File fichier) throws IOException {
         Scenario scenario = new Scenario();
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
@@ -80,9 +59,56 @@ public class Scenario {
         return scenario;
     }
 
+    public static ArrayList<String> convertirDistances(Scenario scenario, File fichierMembres) throws IOException {
+        ArrayList<String> resultat = new ArrayList<>();
+        ArrayList<String> distance = new ArrayList<>();
+        List<String> acheteurs = scenario.getAcheteurs();
+        List<String> vendeurs = scenario.getVendeurs();
+        Membre membres = new Membre();
+
+        //Conversion Pseudo->Ville
+        for(int a=0; a<acheteurs.size();a++){
+            for(int b=1; b<acheteurs.size();b++){
+                for(Map.Entry<String, String> entree: membres.convertMembres(fichierMembres).entrySet()){
+                    if(a%2==0){
+                        if(b%2==1){
+                            if(vendeurs.get(a).equals(entree.getKey())){
+                                resultat.add(entree.getValue());
+                            }
+                        } else {
+                            if(acheteurs.get(a).equals(entree.getKey())){
+                                resultat.add(entree.getValue());
+                            }
+
+                        }
+                    } else {
+                        if (b%2==1){
+                            if(vendeurs.get(a).equals(entree.getKey())){
+                                resultat.add(entree.getValue());
+                            }
+                        } else {
+                            if(acheteurs.get(a).equals(entree.getKey())){
+                                resultat.add(entree.getValue());
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        //ENSUITE:
+        return resultat;
+    }
+
     public static ArrayList<String> afficherDistances(Scenario scenario){
         ArrayList<String> resultat = new ArrayList<>();
-        resultat.add(scenario.getAcheteurs().toString() + " -- " + scenario.getVendeurs().toString() + "// Distance:");
+        List<String> acheteurs = scenario.getAcheteurs();
+        List<String> vendeurs = scenario.getVendeurs();
+        for(int a=0; a<acheteurs.size();a++){
+            resultat.add(vendeurs.get(a) + " -> " + acheteurs.get(a) + "\n");
+        }
+
         return resultat;
     }
 }
