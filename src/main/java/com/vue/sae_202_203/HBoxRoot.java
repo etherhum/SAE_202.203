@@ -9,18 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HBoxRoot extends HBox {
     File membresFichier = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
@@ -84,8 +79,8 @@ public class HBoxRoot extends HBox {
         File f = new File("/Users/soulja/Desktop/Fichiers");
         fichiers = f.listFiles();
         ArrayList<String> listeNomfichiers = new ArrayList<>();
-        for (int i = 0; i < fichiers.length; i++) {
-            listeNomfichiers.add(fichiers[i].getName());
+        for (File fichier : fichiers) {
+            listeNomfichiers.add(fichier.getName());
         }
         ObservableList<String> obsNomfichiers = FXCollections.observableArrayList(listeNomfichiers);
         ComboBox cbScenarios = new ComboBox(obsNomfichiers);

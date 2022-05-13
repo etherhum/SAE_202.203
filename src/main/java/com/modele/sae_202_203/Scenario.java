@@ -61,10 +61,22 @@ public class Scenario {
 
     public static ArrayList<Integer> convertirDistances(Scenario scenario, File fichierMembres, File fichierDistances) throws IOException {
         Distance distance = new Distance();
+        ArrayList<String> resultat = convertirPseudoVille(scenario, fichierMembres);
+        ArrayList<Integer> villesIndices = convertirVilleIndice(resultat, distance, fichierDistances);
+        //Conversion indices-->distance
+        int[][] tabDistance = distance.ajoutDistances(fichierDistances);
+        ArrayList<Integer> distances = new ArrayList<>();
+        for(int i=0; i< villesIndices.size();i++){
+            distances.add(tabDistance[villesIndices.get(i)][villesIndices.get(i+1)]);
+            i++;
+        }
+        return distances;
+    }
+
+    public static ArrayList<String> convertirPseudoVille(Scenario scenario, File fichierMembres) throws IOException {
         List<String> acheteurs = scenario.getAcheteurs();
         List<String> vendeurs = scenario.getVendeurs();
         Membre membres = new Membre();
-        //Conversion Pseudo->Ville
         ArrayList<String> resultat = new ArrayList<>();
         for(int a=0; a<acheteurs.size();a++){
             for(int b=1; b<acheteurs.size();b++){
@@ -82,7 +94,10 @@ public class Scenario {
                 }
             }
         }
-        //Conversion ville-->indice
+        return resultat;
+    }
+
+    public static ArrayList<Integer> convertirVilleIndice(ArrayList<String> resultat, Distance distance, File fichierDistances) throws IOException {
         ArrayList<Integer> villesIndices = new ArrayList<>();
         for(String r: resultat){
             for(Map.Entry<String, Integer> entree: distance.ajoutVilles(fichierDistances).entrySet()){
@@ -91,14 +106,7 @@ public class Scenario {
                 }
             }
         }
-        //Conversion indices-->distance
-        int[][] tabDistance = distance.ajoutDistances(fichierDistances);
-        ArrayList<Integer> distances = new ArrayList<>();
-        for(int i=0; i< villesIndices.size();i++){
-            distances.add(tabDistance[villesIndices.get(i)][villesIndices.get(i+1)]);
-            i++;
-        }
-        return distances;
+        return villesIndices;
     }
 
     public static ArrayList<String> afficherDistances(Scenario scenario) throws IOException {
@@ -107,8 +115,13 @@ public class Scenario {
         List<String> vendeurs = scenario.getVendeurs();
         File fichierMembres = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
         File fichierDistances = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
+        ArrayList<String> villes = convertirPseudoVille(scenario, fichierMembres);
+        int b=0;
+        int c=1;
         for(int a=0; a<acheteurs.size();a++){
-            resultat.add(vendeurs.get(a) + " -> " + acheteurs.get(a) + " // Distance: " + Scenario.convertirDistances(scenario, fichierMembres, fichierDistances).get(a) + "\n");
+            resultat.add(vendeurs.get(a) + " - " + acheteurs.get(a) + " / " + villes.get(b) + " - " + villes.get(c) + " // Distance: " + Scenario.convertirDistances(scenario, fichierMembres, fichierDistances).get(a) + "\n");
+            b=b+2;
+            c=c+2;
         }
         return resultat;
     }
