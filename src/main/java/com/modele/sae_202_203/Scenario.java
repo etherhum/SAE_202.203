@@ -59,56 +59,57 @@ public class Scenario {
         return scenario;
     }
 
-    public static ArrayList<String> convertirDistances(Scenario scenario, File fichierMembres) throws IOException {
-        ArrayList<String> resultat = new ArrayList<>();
-        ArrayList<String> distance = new ArrayList<>();
+    public static ArrayList<Integer> convertirDistances(Scenario scenario, File fichierMembres, File fichierDistances) throws IOException {
+        Distance distance = new Distance();
         List<String> acheteurs = scenario.getAcheteurs();
         List<String> vendeurs = scenario.getVendeurs();
         Membre membres = new Membre();
-
         //Conversion Pseudo->Ville
+        ArrayList<String> resultat = new ArrayList<>();
         for(int a=0; a<acheteurs.size();a++){
             for(int b=1; b<acheteurs.size();b++){
                 for(Map.Entry<String, String> entree: membres.convertMembres(fichierMembres).entrySet()){
-                    if(a%2==0){
-                        if(b%2==1){
-                            if(vendeurs.get(a).equals(entree.getKey())){
-                                resultat.add(entree.getValue());
-                            }
-                        } else {
-                            if(acheteurs.get(a).equals(entree.getKey())){
-                                resultat.add(entree.getValue());
-                            }
-
+                    if(b%2==1){
+                        if(vendeurs.get(a).equals(entree.getKey())){
+                            resultat.add(entree.getValue());
                         }
                     } else {
-                        if (b%2==1){
-                            if(vendeurs.get(a).equals(entree.getKey())){
-                                resultat.add(entree.getValue());
-                            }
-                        } else {
-                            if(acheteurs.get(a).equals(entree.getKey())){
-                                resultat.add(entree.getValue());
-                            }
+                        if(acheteurs.get(a).equals(entree.getKey())){
+                            resultat.add(entree.getValue());
                         }
-                    }
 
+                    }
                 }
             }
         }
-
-        //ENSUITE:
-        return resultat;
+        //Conversion ville-->indice
+        ArrayList<Integer> villesIndices = new ArrayList<>();
+        for(String r: resultat){
+            for(Map.Entry<String, Integer> entree: distance.ajoutVilles(fichierDistances).entrySet()){
+                if(r.equals(entree.getKey())){
+                    villesIndices.add(entree.getValue());
+                }
+            }
+        }
+        //Conversion indices-->distance
+        int[][] tabDistance = distance.ajoutDistances(fichierDistances);
+        ArrayList<Integer> distances = new ArrayList<>();
+        for(int i=0; i< villesIndices.size();i++){
+            distances.add(tabDistance[villesIndices.get(i)][villesIndices.get(i+1)]);
+            i++;
+        }
+        return distances;
     }
 
-    public static ArrayList<String> afficherDistances(Scenario scenario){
+    public static ArrayList<String> afficherDistances(Scenario scenario) throws IOException {
         ArrayList<String> resultat = new ArrayList<>();
         List<String> acheteurs = scenario.getAcheteurs();
         List<String> vendeurs = scenario.getVendeurs();
+        File fichierMembres = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
+        File fichierDistances = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
         for(int a=0; a<acheteurs.size();a++){
-            resultat.add(vendeurs.get(a) + " -> " + acheteurs.get(a) + "\n");
+            resultat.add(vendeurs.get(a) + " -> " + acheteurs.get(a) + " // Distance: " + Scenario.convertirDistances(scenario, fichierMembres, fichierDistances).get(a) + "\n");
         }
-
         return resultat;
     }
 }

@@ -103,7 +103,6 @@ public class HBoxRoot extends HBox {
                 } else {
                     File scenarioFichier = new File("/Users/soulja/Desktop/Fichiers/" + cbScenarios.getValue().toString());
                     Scenario scenario = new Scenario();
-                    File distancesFichier = new File("/Users/soulja/Desktop/Fichiers/distances.txt");
                     try {
                         scenario = Scenario.listeScenarios(scenarioFichier);
                     } catch (IOException e) {
@@ -111,13 +110,14 @@ public class HBoxRoot extends HBox {
                     }
                     String resultat = null;
                     try {
-                        System.out.println(Scenario.convertirDistances(scenario, membresFichier));
-                        //resultat = Scenario.calculerDistances(scenario, distancesFichier).toString();
-                        //System.out.println(resultat);
+                        txtChoix.setText(Scenario.afficherDistances(scenario).toString()
+                                .replace(",", "")  //remove the commas
+                                .replace("[", "")  //remove the right bracket
+                                .replace("]", "")  //remove the left bracket
+                                .trim());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    txtChoix.setText(resultat);
                 }
             }
         });
