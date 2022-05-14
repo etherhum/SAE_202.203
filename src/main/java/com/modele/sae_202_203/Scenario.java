@@ -119,7 +119,7 @@ public class Scenario {
         int b=0;
         int c=1;
         for(int a=0; a<acheteurs.size();a++){
-            resultat.add(vendeurs.get(a) + " - " + acheteurs.get(a) + " / " + villes.get(b) + " - " + villes.get(c) + " // Distance: " + Scenario.convertirDistances(scenario, fichierMembres, fichierDistances).get(a) + "\n");
+            resultat.add(vendeurs.get(a) + " - " + acheteurs.get(a) + " | " + villes.get(b) + " - " + villes.get(c) + " | Distance: " + Scenario.convertirDistances(scenario, fichierMembres, fichierDistances).get(a) + "\n");
             b=b+2;
             c=c+2;
         }
