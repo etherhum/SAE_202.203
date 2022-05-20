@@ -1,6 +1,7 @@
 package com.vue.sae_202_203;
 
 import com.modele.sae_202_203.Membre;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -9,13 +10,14 @@ import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
 
-public class MembresVillesPane extends GridPane {
-    File membresFichier = new File("/Users/soulja/Desktop/Fichiers/membres_APLI.txt");
-    Membre membre = new Membre();
-    public MembresVillesPane() throws IOException {
-        setHgap(10);
-        setVgap(10);
-        //Groupe "Affichage des membres"
+public class LecturePane extends GridPane implements Constantes{
+    public LecturePane() throws IOException {
+        setAlignment(Pos.CENTER);
+        setPadding(new Insets(50, 0, 0, 0));
+
+        // Membres
+        File membresFichier = new File(CHEMIN_MEMBRES);
+        Membre membre = new Membre();
         Label labelMembres = new Label("Membres:");
         labelMembres.setMaxWidth(Double.MAX_VALUE);
         labelMembres.setAlignment(Pos.CENTER);
@@ -27,11 +29,10 @@ public class MembresVillesPane extends GridPane {
         listeMembres.setWrapText(true);
         ScrollPane paneMembres = new ScrollPane(listeMembres);
         paneMembres.setMaxSize(200, 200);
-        paneMembres.setMinSize(300, 200);
+        paneMembres.setMinSize(300, 400);
         paneMembres.setStyle("-fx-background: #d8f3dc;");
 
-
-        //Groupe "Affichage des villes"
+        // Villes
         Label labelVilles = new Label("Villes:");
         labelVilles.setMaxWidth(Double.MAX_VALUE);
         labelVilles.setAlignment(Pos.CENTER);
@@ -43,7 +44,7 @@ public class MembresVillesPane extends GridPane {
         listeVilles.setWrapText(true);
         ScrollPane paneVille = new ScrollPane(listeVilles);
         paneVille.setMaxSize(200, 200);
-        paneVille.setMinSize(300, 200);
+        paneVille.setMinSize(300, 400);
         paneVille.setStyle("-fx-background: #d8f3dc;");
 
         add(labelMembres,0,1);
