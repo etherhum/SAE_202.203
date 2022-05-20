@@ -1,5 +1,7 @@
 package com.vue.sae_202_203;
 
+import com.modele.sae_202_203.Distance;
+import com.modele.sae_202_203.Membre;
 import com.modele.sae_202_203.Scenario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,9 +13,15 @@ import javafx.scene.layout.HBox;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 
 public class ScenarioPane extends GridPane implements Constantes {
-    public ScenarioPane(){
+    Scenario scenario;
+    File membresFichier = new File(CHEMIN_MEMBRES);
+    HashMap <TreeSet <String>, Integer> distance;
+    public ScenarioPane() throws IOException {
         setGridLinesVisible(true);
 
         //////////////////////////////////////////////////////////////////
@@ -49,23 +57,28 @@ public class ScenarioPane extends GridPane implements Constantes {
         // Bouton -> Valider
         Button boutonValider = new Button("Valider");
         boutonValider.setFocusTraversable(false);
+        distance = Distance.lectureDistanceMap(new File(CHEMIN_DISTANCE));
         boutonValider.setOnAction(event -> {
             if(cbScenarios.getValue()==null){
                 txtChoix.setText("Erreur: Aucun scénario sélectionné");
             } else {
                 File scenarioFichier = new File(CHEMIN_SCENARIOS + cbScenarios.getValue());
-                Scenario scenario = new Scenario();
                 try {
+                    HashMap<String,String> membre = Membre.convertMembres(membresFichier);
                     scenario = Scenario.listeScenarios(scenarioFichier);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    txtChoix.setText(Scenario.afficherDistances(scenario).toString()
-                            .replace(",", "")
-                            .replace("[", "")
-                            .replace("]", "")
-                            .trim());
+                    List<String> vendeurs = scenario.getVendeurs();
+                    List<String> acheteurs = scenario.getAcheteurs();
+                    String resultat = new String();
+                    for(int a=0; a<vendeurs.size(); a++){
+                        String vendeur = vendeurs.get(a);
+                        String acheteur = acheteurs.get(a);
+                        TreeSet cle = Membre.pairVille(membre.get(vendeur), membre.get(acheteur));
+                        System.out.println(cle);
+                        System.out.println(distance.get(cle));
+                        resultat += vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) +
+                               " | " + distance.get(cle) + "\n";
+                    }
+                    txtChoix.setText(resultat);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
