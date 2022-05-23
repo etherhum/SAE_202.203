@@ -19,6 +19,7 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
     File membresFichier = new File(CHEMIN_MEMBRES);
     HashMap<ArrayList<String>, Integer> distance;
     public ScenarioPane(){
+        // Paramètres
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 0, 0));
         setHgap(50);

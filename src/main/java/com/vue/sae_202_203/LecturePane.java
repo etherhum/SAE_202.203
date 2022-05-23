@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class LecturePane extends GridPane implements ConstantesChemins {
     public LecturePane() throws IOException {
+        // Paramètres
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 50, 0));
         setHgap(50);
