@@ -21,7 +21,7 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
     public ScenarioPane(){
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 0, 0));
-        setVgap(5);
+        setHgap(50);
 
         //////////////////////////////////////////////////////////////////
         /////////////////////////////SCENARIO/////////////////////////////
@@ -35,8 +35,7 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
         Label txtChoix = new Label();
         ScrollPane paneScenario = new ScrollPane(txtChoix);
         paneScenario.setStyle("-fx-background: #d8f3dc;");
-        paneScenario.setMaxSize(200, 400);
-        paneScenario.setMinSize(300, 400);
+        paneScenario.setMinSize(350, 400);
 
         // HBox -> Label "Scénario" + ComboBox
         Label txtChoisirScenario = new Label("Scénarios");
@@ -72,8 +71,7 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
 
         ScrollPane paneChemin = new ScrollPane();
         paneChemin.setStyle("-fx-background: #d8f3dc;");
-        paneChemin.setMaxSize(200, 400);
-        paneChemin.setMinSize(300, 400);
+        paneChemin.setMinSize(350, 400);
 
         add(labelChemin, 1, 1);
         add(paneChemin, 1, 2);
@@ -98,12 +96,14 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
                 for(int a=0; a<vendeurs.size(); a++){
                     String vendeur = vendeurs.get(a);
                     String acheteur = acheteurs.get(a);
-                    ArrayList<String> pair = Membre.pairVille(membre.get(vendeur), membre.get(acheteur));
+                    ArrayList<String> pair = new ArrayList<>();
+                    pair.add(membre.get(vendeur));
+                    pair.add(membre.get(acheteur));
                     resultats[a] = vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) + " | " + distance.get(pair) + "\n";
                 }
                 String resultat = Arrays.toString(resultats)
                         .replace(",", "")
-                        .replace("[", "")
+                        .replace("[", " ")
                         .replace("]", "")
                         .replace("_"," ");
                 txtChoix.setText(resultat);

@@ -8,7 +8,7 @@ import java.util.*;
 public class Distance implements ConstantesChemins {
     public static ArrayList<String> listerVilles(File fichierDistance) {
         //////////////////
-        // Retourne une liste une ArrayListe listant toutes les villes du fichier distances.txt
+        // Retourne une ArrayList listant toutes les villes du fichier distances.txt
         //////////////////
         ArrayList<String> villes = new ArrayList<>();
         String ligne;
@@ -54,7 +54,9 @@ public class Distance implements ConstantesChemins {
                     int a = 0;
                     while (tokenizer.hasMoreTokens() && a < villes.size()) {
                         String entier = tokenizer.nextToken();
-                        ArrayList<String> cle = Membre.pairVille(villes.get(b), villes.get(a++));
+                        ArrayList<String> cle = new ArrayList<>();
+                        cle.add(villes.get(b));
+                        cle.add(villes.get(a++));
                         distance.put(cle, Integer.parseInt(entier));
                     }
                 }

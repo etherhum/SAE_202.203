@@ -14,6 +14,7 @@ public class LecturePane extends GridPane implements ConstantesChemins {
     public LecturePane() throws IOException {
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 50, 0));
+        setHgap(50);
 
         // Membres
         File membresFichier = new File(CHEMIN_MEMBRES);
@@ -21,14 +22,16 @@ public class LecturePane extends GridPane implements ConstantesChemins {
         labelMembres.setMaxWidth(Double.MAX_VALUE);
         labelMembres.setAlignment(Pos.CENTER);
         labelMembres.setStyle("-fx-font: 24 arial;");
-        Label listeMembres = new Label(Membre.convertMembres(membresFichier).keySet().toString());
+        Label listeMembres = new Label(Membre.listeMembres(membresFichier).toString()
+                .replace(" ", "")
+                .replace(",","")
+                .replace("[","")
+                .replace("]",""));
         listeMembres.setFocusTraversable(false);
-        listeMembres.setMaxSize(200, 200);
-        listeMembres.setMinSize(250, 1400);
+        listeMembres.setMinSize(150, 1400);
         listeMembres.setWrapText(true);
         ScrollPane paneMembres = new ScrollPane(listeMembres);
-        paneMembres.setMaxSize(200, 200);
-        paneMembres.setMinSize(300, 400);
+        paneMembres.setMinSize(200, 400);
         paneMembres.setStyle("-fx-background: #d8f3dc;");
 
         // Villes
@@ -36,14 +39,17 @@ public class LecturePane extends GridPane implements ConstantesChemins {
         labelVilles.setMaxWidth(Double.MAX_VALUE);
         labelVilles.setAlignment(Pos.CENTER);
         labelVilles.setStyle("-fx-font: 24 arial;");
-        Label listeVilles = new Label(Membre.convertMembres(membresFichier).values().toString());
+        Label listeVilles = new Label(Membre.listeVilles(membresFichier).toString()
+                .replace(" ", "")
+                .replace(",","")
+                .replace("[","")
+                .replace("]","")
+                .replace("_", " "));
         listeVilles.setFocusTraversable(false);
-        listeVilles.setMaxSize(200, 200);
-        listeVilles.setMinSize(250, 1400);
+        listeVilles.setMinSize(150, 1400);
         listeVilles.setWrapText(true);
         ScrollPane paneVille = new ScrollPane(listeVilles);
-        paneVille.setMaxSize(200, 200);
-        paneVille.setMinSize(300, 400);
+        paneVille.setMinSize(200, 300);
         paneVille.setStyle("-fx-background: #d8f3dc;");
 
         add(labelMembres,0,1);
