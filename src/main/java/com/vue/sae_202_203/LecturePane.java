@@ -10,19 +10,18 @@ import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
 
-public class LecturePane extends GridPane implements Constantes{
+public class LecturePane extends GridPane implements ConstantesChemins {
     public LecturePane() throws IOException {
         setAlignment(Pos.CENTER);
-        setPadding(new Insets(50, 0, 0, 0));
+        setPadding(new Insets(50, 0, 50, 0));
 
         // Membres
         File membresFichier = new File(CHEMIN_MEMBRES);
-        Membre membre = new Membre();
         Label labelMembres = new Label("Membres:");
         labelMembres.setMaxWidth(Double.MAX_VALUE);
         labelMembres.setAlignment(Pos.CENTER);
         labelMembres.setStyle("-fx-font: 24 arial;");
-        Label listeMembres = new Label(membre.convertMembres(membresFichier).keySet().toString());
+        Label listeMembres = new Label(Membre.convertMembres(membresFichier).keySet().toString());
         listeMembres.setFocusTraversable(false);
         listeMembres.setMaxSize(200, 200);
         listeMembres.setMinSize(250, 1400);
@@ -37,7 +36,7 @@ public class LecturePane extends GridPane implements Constantes{
         labelVilles.setMaxWidth(Double.MAX_VALUE);
         labelVilles.setAlignment(Pos.CENTER);
         labelVilles.setStyle("-fx-font: 24 arial;");
-        Label listeVilles = new Label(membre.convertMembres(membresFichier).values().toString());
+        Label listeVilles = new Label(Membre.convertMembres(membresFichier).values().toString());
         listeVilles.setFocusTraversable(false);
         listeVilles.setMaxSize(200, 200);
         listeVilles.setMinSize(250, 1400);

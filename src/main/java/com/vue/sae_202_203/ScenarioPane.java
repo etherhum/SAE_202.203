@@ -5,6 +5,7 @@ import com.modele.sae_202_203.Membre;
 import com.modele.sae_202_203.Scenario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -12,22 +13,19 @@ import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
-public class ScenarioPane extends GridPane implements Constantes {
-    Scenario scenario;
+public class ScenarioPane extends GridPane implements ConstantesChemins {
     File membresFichier = new File(CHEMIN_MEMBRES);
-    HashMap <TreeSet <String>, Integer> distance;
-    public ScenarioPane() throws IOException {
-        setGridLinesVisible(true);
+    HashMap<ArrayList<String>, Integer> distance;
+    public ScenarioPane(){
+        setAlignment(Pos.CENTER);
+        setPadding(new Insets(50, 0, 0, 0));
+        setVgap(5);
 
         //////////////////////////////////////////////////////////////////
         /////////////////////////////SCENARIO/////////////////////////////
         //////////////////////////////////////////////////////////////////
-
         Label labelScenario = new Label("Scénario:");
         labelScenario.setMaxWidth(Double.MAX_VALUE);
         labelScenario.setAlignment(Pos.CENTER);
@@ -57,34 +55,8 @@ public class ScenarioPane extends GridPane implements Constantes {
         // Bouton -> Valider
         Button boutonValider = new Button("Valider");
         boutonValider.setFocusTraversable(false);
-        distance = Distance.lectureDistanceMap(new File(CHEMIN_DISTANCE));
-        boutonValider.setOnAction(event -> {
-            if(cbScenarios.getValue()==null){
-                txtChoix.setText("Erreur: Aucun scénario sélectionné");
-            } else {
-                File scenarioFichier = new File(CHEMIN_SCENARIOS + cbScenarios.getValue());
-                try {
-                    HashMap<String,String> membre = Membre.convertMembres(membresFichier);
-                    scenario = Scenario.listeScenarios(scenarioFichier);
-                    List<String> vendeurs = scenario.getVendeurs();
-                    List<String> acheteurs = scenario.getAcheteurs();
-                    String resultat = new String();
-                    for(int a=0; a<vendeurs.size(); a++){
-                        String vendeur = vendeurs.get(a);
-                        String acheteur = acheteurs.get(a);
-                        TreeSet cle = Membre.pairVille(membre.get(vendeur), membre.get(acheteur));
-                        System.out.println(cle);
-                        System.out.println(distance.get(cle));
-                        resultat += vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) +
-                               " | " + distance.get(cle) + "\n";
-                    }
-                    txtChoix.setText(resultat);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        distance = Distance.convertirDistance(new File(CHEMIN_DISTANCE));
+        boutonValider.setOnAction(event -> lireScenario(cbScenarios, txtChoix, membresFichier, distance));
         add(labelScenario, 0, 1);
         add(paneScenario, 0, 2);
         add(hBoxScenario, 0, 3);
@@ -107,5 +79,37 @@ public class ScenarioPane extends GridPane implements Constantes {
         add(paneChemin, 1, 2);
 
 
+    }
+
+    private static void lireScenario(ComboBox<String> cbScenarios, Label txtChoix, File membresFichier, HashMap<ArrayList<String>, Integer> distance){
+        //////////////////
+        // Affiche le scénario choisi, avec ses distances
+        //////////////////
+        if(cbScenarios.getValue()==null){
+            txtChoix.setText("Erreur: Aucun scénario sélectionné");
+        } else {
+            File scenarioFichier = new File(CHEMIN_SCENARIOS + cbScenarios.getValue());
+            try {
+                HashMap<String,String> membre = Membre.convertMembres(membresFichier);
+                Scenario scenario = Scenario.listeScenarios(scenarioFichier);
+                List<String> vendeurs = scenario.getVendeurs();
+                List<String> acheteurs = scenario.getAcheteurs();
+                String[] resultats = new String[vendeurs.size()];
+                for(int a=0; a<vendeurs.size(); a++){
+                    String vendeur = vendeurs.get(a);
+                    String acheteur = acheteurs.get(a);
+                    ArrayList<String> pair = Membre.pairVille(membre.get(vendeur), membre.get(acheteur));
+                    resultats[a] = vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) + " | " + distance.get(pair) + "\n";
+                }
+                String resultat = Arrays.toString(resultats)
+                        .replace(",", "")
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace("_"," ");
+                txtChoix.setText(resultat);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

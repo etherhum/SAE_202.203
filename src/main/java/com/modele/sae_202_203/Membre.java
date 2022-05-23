@@ -10,16 +10,14 @@ public class Membre {
         membres = new HashMap<>();
     }
 
-    public HashMap<String, String> getMembres() { return membres; }
-
     public String toString() { return membres + "\n"; }
 
     public static void addMembres(HashMap<String, String> membres, String cle, String valeur) {
         membres.put(cle, valeur);
     }
 
-    public static TreeSet pairVille(String parNom1, String parNom2){
-        TreeSet cle = new TreeSet();
+    public static ArrayList<String> pairVille(String parNom1, String parNom2){
+        ArrayList<String> cle = new ArrayList<>();
         cle.add(parNom1);
         cle.add(parNom2);
         return cle;

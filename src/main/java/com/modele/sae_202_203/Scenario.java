@@ -40,7 +40,6 @@ public class Scenario {
 
     public static Scenario listeScenarios(File fichier) throws IOException {
         //////////////////
-        // Check: OK
         // Lire le fichier scenario et séparer en deux listes les acheteurs + vendeurs
         //////////////////
         Scenario scenario = new Scenario();

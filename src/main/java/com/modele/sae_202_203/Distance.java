@@ -1,56 +1,65 @@
 package com.modele.sae_202_203;
 
-import com.vue.sae_202_203.Constantes;
+import com.vue.sae_202_203.ConstantesChemins;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
-import static java.lang.System.err;
-
-public class Distance implements Constantes {
-    Map<String, Integer> villes;
-    int[][] tabDistances;
-
-    public Distance() {
-        tabDistances = new int[29][29];
-        villes = new HashMap<>();
-    }
-
-    public Map<String, Integer> getVilles(){ return villes; }
-
-    public int[][] getTabDistances(){ return tabDistances; }
-
-    public static HashMap <TreeSet <String>, Integer> lectureDistanceMap(File fichier) {
-        HashMap <TreeSet <String>, Integer> distance = new HashMap<>();
-        String ligne ;
-        StringTokenizer tokenizer ;
+public class Distance implements ConstantesChemins {
+    public static ArrayList<String> listerVilles(File fichierDistance) {
+        //////////////////
+        // Retourne une liste une ArrayListe listant toutes les villes du fichier distances.txt
+        //////////////////
+        ArrayList<String> villes = new ArrayList<>();
+        String ligne;
+        StringTokenizer tokenizer;
         try {
-            BufferedReader bufferEntree = new BufferedReader(new FileReader (fichier));
-            int noLig = 0;
+            BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierDistance));
             do {
                 ligne = bufferEntree.readLine();
                 if (ligne != null) {
                     tokenizer = new StringTokenizer(ligne, " ");
-                    tokenizer.nextToken();  // sauter nom ville
-                    int noCol = 0;
-                    while (tokenizer.hasMoreTokens() && noCol < NOM_VILLE.length) {
+                    while (tokenizer.hasMoreTokens()) {
                         String entier = tokenizer.nextToken();
-                        //System.out.println(noLig + " " + noCol);
-                        if (noLig == noCol)  // m ville, trien à faire
-                            continue;
+                        villes.add(entier);
+                        for (int a = 0; a < 29; a++) {
+                            tokenizer.nextToken();
+                        }
+                    }
+                }
+            } while (ligne != null);
+            bufferEntree.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return villes;
+    }
 
-                        TreeSet cle = Membre.pairVille(NOM_VILLE[noLig], NOM_VILLE[noCol++]);
-                        if (distance.containsKey(cle))  // les 2 villes sont dejà dans map
-                            continue;
-
+    public static HashMap<ArrayList<String>, Integer> convertirDistance(File fichierDistance) {
+        //////////////////
+        // Retourne un HashMap contenant l'intégralité des combinaisons de distances entre deux villes
+        //////////////////
+        HashMap<ArrayList<String>, Integer> distance = new HashMap<>();
+        String ligne;
+        StringTokenizer tokenizer;
+        ArrayList<String> villes = Distance.listerVilles(new File(CHEMIN_DISTANCE));
+        try {
+            BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierDistance));
+            int b = 0;
+            do {
+                ligne = bufferEntree.readLine();
+                if (ligne != null) {
+                    tokenizer = new StringTokenizer(ligne, " ");
+                    tokenizer.nextToken();
+                    int a = 0;
+                    while (tokenizer.hasMoreTokens() && a < villes.size()) {
+                        String entier = tokenizer.nextToken();
+                        ArrayList<String> cle = Membre.pairVille(villes.get(b), villes.get(a++));
                         distance.put(cle, Integer.parseInt(entier));
                     }
                 }
-                noLig++;
-            }  while (ligne != null);
+                b++;
+            } while (ligne != null);
             bufferEntree.close();
         } catch (IOException e) {
             e.printStackTrace();
