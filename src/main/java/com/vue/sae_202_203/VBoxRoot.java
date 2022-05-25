@@ -1,5 +1,6 @@
 package com.vue.sae_202_203;
 
+import com.ConstantesChemins;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;

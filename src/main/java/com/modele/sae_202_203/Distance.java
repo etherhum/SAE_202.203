@@ -1,6 +1,6 @@
 package com.modele.sae_202_203;
 
-import com.vue.sae_202_203.ConstantesChemins;
+import com.ConstantesChemins;
 
 import java.io.*;
 import java.util.*;
@@ -52,7 +52,7 @@ public class Distance implements ConstantesChemins {
                     tokenizer = new StringTokenizer(ligne, " ");
                     tokenizer.nextToken();
                     int a = 0;
-                    while (tokenizer.hasMoreTokens() && a < villes.size()) {
+                    while (a < villes.size()) {
                         String entier = tokenizer.nextToken();
                         ArrayList<String> cle = new ArrayList<>();
                         cle.add(villes.get(b));

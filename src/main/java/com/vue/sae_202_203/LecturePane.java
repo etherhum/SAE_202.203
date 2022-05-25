@@ -1,5 +1,6 @@
 package com.vue.sae_202_203;
 
+import com.ConstantesChemins;
 import com.modele.sae_202_203.Membre;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,7 @@ public class LecturePane extends GridPane implements ConstantesChemins {
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 50, 0));
         setHgap(50);
+        Membre membre = new Membre();
 
         // Membres
         File membresFichier = new File(CHEMIN_MEMBRES);
@@ -23,7 +25,7 @@ public class LecturePane extends GridPane implements ConstantesChemins {
         labelMembres.setMaxWidth(Double.MAX_VALUE);
         labelMembres.setAlignment(Pos.CENTER);
         labelMembres.setStyle("-fx-font: 24 arial;");
-        Label listeMembres = new Label(Membre.listeMembres(membresFichier).toString()
+        Label listeMembres = new Label(membre.listeMembres(membresFichier).toString()
                 .replace(" ", "")
                 .replace(",","")
                 .replace("[","")
@@ -40,7 +42,7 @@ public class LecturePane extends GridPane implements ConstantesChemins {
         labelVilles.setMaxWidth(Double.MAX_VALUE);
         labelVilles.setAlignment(Pos.CENTER);
         labelVilles.setStyle("-fx-font: 24 arial;");
-        Label listeVilles = new Label(Membre.listeVilles(membresFichier).toString()
+        Label listeVilles = new Label(membre.listeVilles(membresFichier).toString()
                 .replace(" ", "")
                 .replace(",","")
                 .replace("[","")

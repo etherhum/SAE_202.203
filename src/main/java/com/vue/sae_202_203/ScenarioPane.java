@@ -1,5 +1,6 @@
 package com.vue.sae_202_203;
 
+import com.ConstantesChemins;
 import com.modele.sae_202_203.Distance;
 import com.modele.sae_202_203.Membre;
 import com.modele.sae_202_203.Scenario;
@@ -97,10 +98,10 @@ public class ScenarioPane extends GridPane implements ConstantesChemins {
                 for(int a=0; a<vendeurs.size(); a++){
                     String vendeur = vendeurs.get(a);
                     String acheteur = acheteurs.get(a);
-                    ArrayList<String> pair = new ArrayList<>();
-                    pair.add(membre.get(vendeur));
-                    pair.add(membre.get(acheteur));
-                    resultats[a] = vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) + " | " + distance.get(pair) + "\n";
+                    ArrayList<String> pairVendeurAcheteur = new ArrayList<>();
+                    pairVendeurAcheteur.add(membre.get(vendeur));
+                    pairVendeurAcheteur.add(membre.get(acheteur));
+                    resultats[a] = vendeur + " -> " + acheteur + " | " + membre.get(vendeur) + " -> " + membre.get(acheteur) + " | " + distance.get(pairVendeurAcheteur) + "\n";
                 }
                 String resultat = Arrays.toString(resultats)
                         .replace(",", "")

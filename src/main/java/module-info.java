@@ -7,4 +7,5 @@ module com.example.sae_202_203 {
     opens com.example.sae_202_203 to javafx.fxml;
     exports com.modele.sae_202_203;
     exports com.vue.sae_202_203;
+    exports com;
 }

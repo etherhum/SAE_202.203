@@ -50,11 +50,10 @@ public class Membre {
         return membres;
     }
 
-    public static ArrayList<String> listeMembres(File fichier) throws IOException {
+    public ArrayList<String> listeMembres(File fichier) throws IOException {
         //////////////////
-        // Lire le fichier membre et retourner un HashMap<Membre: Ville>
+        // Lire le fichier membre et retourner une ArrayList<String> des membres stylisée pour rentrer dans le textArea
         //////////////////
-        ArrayList<String> membres = new ArrayList<>();
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
         String ligne;
         StringTokenizer tokenizer;
@@ -74,18 +73,17 @@ public class Membre {
         return membres;
     }
 
-    public static ArrayList<String> listeVilles(File fichier) throws IOException {
+    public ArrayList<String> listeVilles(File fichier) throws IOException {
         //////////////////
-        // Lire le fichier membre et retourner un HashMap<Membre: Ville>
+        // Lire le fichier membre et retourner une ArrayList<String> des villes stylisée pour rentrer dans le textArea
         //////////////////
-        ArrayList<String> villes = new ArrayList<>();
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
         String ligne;
         StringTokenizer tokenizer;
         int a = 0;
         do {
             ligne = bufferEntree.readLine();
-            if (ligne != null) { // Si la ligne n'est pas nulle
+            if (ligne != null) {
                 tokenizer = new StringTokenizer(ligne, " ");
                 tokenizer.nextToken();
                 String ligneVille = a + " - " + tokenizer.nextToken() + "\n";
