@@ -33,6 +33,8 @@ Le scénario impose donc des contraintes
     Paris AVANT Grenoble
     Lyon AVANT Paris
 
+Tours Lyon Paris Grenoble 
+
 On doit réaliser un tour qui part de Vélizy et y revient et passe par les villes Tours, Paris, Lyon, Grenoble en respectant les contraintes précédentes. 
 
 Un ordonnancement sur les contraintes précédentes donne les deux solutions :
@@ -65,6 +67,9 @@ pas de données fournies
 
 
 ALGORITHME:
-Scanner pour demander ville
-Dictionnaire: Ville en clé, distances en valeurs --> Si lors du parcours de dico dans for String a: boucle:
-boucle[a] == 0: alors retourner erreur, sinon, afficher a
+Lecture scénario:
+Liste d'ordonnancement = TreeSet(?) pour éviter doublons
+Placer vendeur avant acheteurs en mode:
+Vendeur = début de la liste
+Acheteur = fin de la liste
+Ensuite, calculer la distance entre deux villes de la liste à l'aide de la fonction pour calculer les distances

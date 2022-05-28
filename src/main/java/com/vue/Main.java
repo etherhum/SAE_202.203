@@ -1,4 +1,4 @@
-package com.vue.sae_202_203;
+package com.vue;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

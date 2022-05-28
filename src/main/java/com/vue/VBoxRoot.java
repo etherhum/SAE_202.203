@@ -1,13 +1,13 @@
-package com.vue.sae_202_203;
+package com.vue;
 
-import com.ConstantesChemins;
+import com.Chemins;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class VBoxRoot extends VBox implements ConstantesChemins {
+public class VBoxRoot extends VBox implements Chemins {
     private static final MenuItem itemMembresVilles = new MenuItem("Membres");
     private static final MenuItem itemScenarios = new MenuItem("Scénarios");
     public VBoxRoot() throws IOException {

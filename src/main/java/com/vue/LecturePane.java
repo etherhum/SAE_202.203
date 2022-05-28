@@ -1,7 +1,7 @@
-package com.vue.sae_202_203;
+package com.vue;
 
-import com.ConstantesChemins;
-import com.modele.sae_202_203.Membre;
+import com.Chemins;
+import com.modele.Membre;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
 
-public class LecturePane extends GridPane implements ConstantesChemins {
+public class LecturePane extends GridPane implements Chemins {
     public LecturePane() throws IOException {
         // Paramètres
         setAlignment(Pos.CENTER);

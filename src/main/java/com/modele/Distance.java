@@ -1,15 +1,15 @@
-package com.modele.sae_202_203;
+package com.modele;
 
-import com.ConstantesChemins;
+import com.Chemins;
 
 import java.io.*;
 import java.util.*;
 
-public class Distance implements ConstantesChemins {
+public class Distance implements Chemins {
     public static ArrayList<String> listerVilles(File fichierDistance) {
-        //////////////////
-        // Retourne une ArrayList listant toutes les villes du fichier distances.txt
-        //////////////////
+        /*
+         * Retourne une ArrayList listant toutes les villes du fichier distances.txt
+         */
         ArrayList<String> villes = new ArrayList<>();
         String ligne;
         StringTokenizer tokenizer;

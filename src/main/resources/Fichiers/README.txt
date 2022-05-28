@@ -1,4 +1,4 @@
-﻿**EXPLICATIONS SUR LES FICHIERS FOURNIS ET ELEMENTS DE SOLUTION**
+**EXPLICATIONS SUR LES FICHIERS FOURNIS ET ELEMENTS DE SOLUTION**
 
 *distances.txt*
 Ce fichier contient la liste des distances en km de 29 villes entre elles. Le fichier peut être vu comme un tableau de 29 lignes sur 30 colonnes. La première colonne contient les noms des villes. Chaque ligne contient la liste des distances d'une ville à toutes les autres, dans le même ordre. Par exemple, la distance donnée entre Biarritz et Angers est 518.
@@ -32,6 +32,8 @@ Le scénario impose donc des contraintes
     Tours AVANT Paris
     Paris AVANT Grenoble
     Lyon AVANT Paris
+
+Tours Lyon Paris Grenoble 
 
 On doit réaliser un tour qui part de Vélizy et y revient et passe par les villes Tours, Paris, Lyon, Grenoble en respectant les contraintes précédentes. 
 
