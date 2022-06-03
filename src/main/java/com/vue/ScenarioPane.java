@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ScenarioPane extends GridPane implements Chemins {
@@ -71,6 +72,7 @@ public class ScenarioPane extends GridPane implements Chemins {
             lireScenario(cbScenarios, txtScenario, membresFichier, distance);
             cheminOriginal(lireScenario(cbScenarios, txtScenario, membresFichier, distance), txtCheminOriginal);
             cheminAlgorithme(lireScenario(cbScenarios, txtScenario, membresFichier, distance), txtCheminAlgorithme);
+            cheminAlgorithmeTest(lireScenario(cbScenarios, txtScenario, membresFichier, distance));
         });
 
         VBox vBoxScenarioAffichage = new VBox();
@@ -170,13 +172,6 @@ public class ScenarioPane extends GridPane implements Chemins {
     }
 
     private static void cheminAlgorithme(ArrayList<String> nomvilles, Label txtCheminAlgorithme){
-        /* ALGORITHME CHEMIN OPTIMISE
-         * TOUT LES DEUX RESULTS DANS NOMVILLES:
-         * FAIRE UNE LISTE NEWLISTE ET AJOUTER CES RESULTS --> SUPPRIMER LES RESULTS DE LA LISTE NOMVILLES
-         * (?) INVERSER NEWLISTE
-         * AJOUTER VELIZY AU DEBUT ET FIN DE NEWLISTE
-         * PARCOUR DE NEWLISTE:
-         * AJOUTERPAIR PARCOUR ET PARCOUR+1 --> DISTANCE.GET(PAIR)*/
         ArrayList<String> ordonnancement = new ArrayList<>();
         for(int a=0; a<nomvilles.size(); a++){
             if(a%2!=0){
@@ -188,4 +183,26 @@ public class ScenarioPane extends GridPane implements Chemins {
         cheminOriginal(ordonnancement, txtCheminAlgorithme);
     }
 
+    private static void cheminAlgorithmeTest(ArrayList<String> nomvilles){
+        HashMap<String, Integer> degresEntrants = new HashMap<>();
+        HashMap<String, String> voisinsEntrants = new HashMap<>();
+        ArrayList<String> villesAcheteurs = new ArrayList<>(), villesVendeurs = new ArrayList<>();
+        ArrayList<String> ordre = new ArrayList<>();
+        //Séparer les villes en deux listes: Vendeurs et Acheteurs
+        for(int a=0; a<nomvilles.size(); a++){
+            if(a%2!=0){
+                villesAcheteurs.add(nomvilles.get(a));
+            }
+            else{
+                villesVendeurs.add(nomvilles.get(a));
+            }
+        }
+        // Remplissage de la liste des degrés entrants
+        for(String b: villesAcheteurs){
+            degresEntrants.put(b, Collections.frequency(villesAcheteurs, b));
+        }
+
+        // Début de l'algorithme
+
+    }
 }
