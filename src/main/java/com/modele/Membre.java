@@ -28,12 +28,12 @@ public class Membre {
         villes.add(valeur);
     }
 
-    public static HashMap<String, String> convertMembres(File fichier) throws IOException {
-        //////////////////
-        // Lire le fichier membre et retourner un HashMap<Membre: Ville>
-        //////////////////
+    public static HashMap<String, String> convertMembres(File fichierMembres) throws IOException {
+        /*
+        Lire le fichier membre et retourner un HashMap<Membre:Ville>
+         */
         HashMap<String, String> membres = new HashMap<>();
-        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
+        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierMembres));
         String ligne;
         StringTokenizer tokenizer;
         do {
@@ -50,15 +50,16 @@ public class Membre {
         return membres;
     }
 
-    public ArrayList<String> listeMembres(File fichier) throws IOException {
-        //////////////////
-        // Lire le fichier membre et retourner une ArrayList<String> des membres stylisée pour rentrer dans le textArea
-        //////////////////
-        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
+    public ArrayList<String> listeMembres(File fichierMembres) throws IOException {
+        /*
+        Lire le fichier membre et retourner une ArrayList<String> des membres stylisée pour rentrer dans le textArea
+         */
+        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierMembres));
         String ligne;
         StringTokenizer tokenizer;
         int a = 0;
         do {
+            // Parcours de membres.txt
             ligne = bufferEntree.readLine();
             if (ligne != null) { // Si la ligne n'est pas nulle
                 tokenizer = new StringTokenizer(ligne, " ");
@@ -73,11 +74,11 @@ public class Membre {
         return membres;
     }
 
-    public ArrayList<String> listeVilles(File fichier) throws IOException {
+    public ArrayList<String> listeVilles(File fichierMembres) throws IOException {
         //////////////////
         // Lire le fichier membre et retourner une ArrayList<String> des villes stylisée pour rentrer dans le textArea
         //////////////////
-        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
+        BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierMembres));
         String ligne;
         StringTokenizer tokenizer;
         int a = 0;

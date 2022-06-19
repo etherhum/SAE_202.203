@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Scenario {
 
-    List<String> vendeurs;
-    List<String> acheteurs;
+    private final List<String> vendeurs;
+    private final List<String> acheteurs;
 
     public Scenario(){
         vendeurs = new ArrayList<>();
@@ -39,14 +39,15 @@ public class Scenario {
     }
 
     public static Scenario listeScenarios(File fichier) throws IOException {
-        //////////////////
-        // Lire le fichier scenario et séparer en deux listes les acheteurs + vendeurs
-        //////////////////
+        /*
+        Lire le fichier scenario et séparer en deux listes les acheteurs + vendeurs
+         */
         Scenario scenario = new Scenario();
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichier));
         String ligne;
         StringTokenizer tokenizer;
         do {
+            // Parcours du fichier scénario
             ligne = bufferEntree.readLine();
             if (ligne != null) { // Si la ligne n'est pas nulle
                 tokenizer = new StringTokenizer(ligne, " ->");

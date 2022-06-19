@@ -14,16 +14,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ScenarioPane extends GridPane implements Chemins {
-    File membresFichier = new File(CHEMIN_MEMBRES);
-    static HashMap<ArrayList<String>, Integer> distance;
-    Button boutonValider = new Button("Valider");
+    private final File membresFichier = new File(CHEMIN_MEMBRES);
+    private static HashMap<ArrayList<String>, Integer> distance;
 
     public ScenarioPane(){
         // Paramètres
@@ -66,13 +67,14 @@ public class ScenarioPane extends GridPane implements Chemins {
         hBoxScenarioChoix.setSpacing(10);
 
         // Bouton -> Valider
+        Button boutonValider = new Button("Valider");
         boutonValider.setFocusTraversable(false);
         distance = Distance.convertirDistance(new File(CHEMIN_DISTANCE));
         boutonValider.setOnAction(actionEvent -> {
             lireScenario(cbScenarios, txtScenario, membresFichier, distance);
             cheminOriginal(lireScenario(cbScenarios, txtScenario, membresFichier, distance), txtCheminOriginal);
             cheminAlgorithme(lireScenario(cbScenarios, txtScenario, membresFichier, distance), txtCheminAlgorithme);
-            cheminAlgorithmeTest(lireScenario(cbScenarios, txtScenario, membresFichier, distance));
+            //cheminAlgorithmeTest(lireScenario(cbScenarios, txtScenario, membresFichier, distance));
         });
 
         VBox vBoxScenarioAffichage = new VBox();
@@ -157,7 +159,6 @@ public class ScenarioPane extends GridPane implements Chemins {
         String[] resultats = new String[nomvilles.size()];
         int distanceTotale = 0;
         for(int a=0; a<nomvilles.size()-1; a++){
-
             ArrayList<String> pairVendeurAcheteur = new ArrayList<>();
             pairVendeurAcheteur.add(nomvilles.get(a));
             pairVendeurAcheteur.add(nomvilles.get(a+1));
@@ -172,7 +173,13 @@ public class ScenarioPane extends GridPane implements Chemins {
     }
 
     private static void cheminAlgorithme(ArrayList<String> nomvilles, Label txtCheminAlgorithme){
+        /*
+        Calcul d'un premier chemin algorithlique,
+        en constituant en premier toutes les paires entre toutes les villes des acheteurs
+        et en second les paires restantes entre les villes des vendeurs
+         */
         ArrayList<String> ordonnancement = new ArrayList<>();
+        System.out.println(nomvilles);
         for(int a=0; a<nomvilles.size(); a++){
             if(a%2!=0){
                 ordonnancement.add(nomvilles.get(a));
@@ -184,10 +191,15 @@ public class ScenarioPane extends GridPane implements Chemins {
     }
 
     private static void cheminAlgorithmeTest(ArrayList<String> nomvilles){
+        /*
+        Méthode supposée remplacer la méthode cheminAlgorithme actuelle, en cours de développement
+         */
         HashMap<String, Integer> degresEntrants = new HashMap<>();
-        HashMap<String, String> voisinsEntrants = new HashMap<>();
-        ArrayList<String> villesAcheteurs = new ArrayList<>(), villesVendeurs = new ArrayList<>();
+        HashMap<String, ArrayList<String>> voisinsSortants = new HashMap<>();
+        ArrayList<String> villesAcheteurs = new ArrayList<>();
+        ArrayList<String> villesVendeurs = new ArrayList<>();
         ArrayList<String> ordre = new ArrayList<>();
+        int nbEtapes = 0; /////A SUPPRIMER
         //Séparer les villes en deux listes: Vendeurs et Acheteurs
         for(int a=0; a<nomvilles.size(); a++){
             if(a%2!=0){
@@ -197,12 +209,77 @@ public class ScenarioPane extends GridPane implements Chemins {
                 villesVendeurs.add(nomvilles.get(a));
             }
         }
-        // Remplissage de la liste des degrés entrants
+        // Remplissage des Voisins Sortants
+        for(int a=0; a< villesVendeurs.size();a++){
+            ArrayList<String> acheteursParVendeurs = new ArrayList<>();
+            for(int b=0; b<villesAcheteurs.size();b++){
+                if(villesVendeurs.get(a).equals(villesVendeurs.get(b))){
+                    if(a!=b){
+                        acheteursParVendeurs.add(villesAcheteurs.get(b));
+                    }
+                }
+            }
+            acheteursParVendeurs.add(villesAcheteurs.get(a));
+            voisinsSortants.put(villesVendeurs.get(a), acheteursParVendeurs);
+        }
+        // Remplissage de la liste des degrés entrants --> Acheteurs
         for(String b: villesAcheteurs){
             degresEntrants.put(b, Collections.frequency(villesAcheteurs, b));
         }
-
         // Début de l'algorithme
+        ordre.add("Vélizy");
+        // Parcours des Voisins Sortants
+        for(String source: voisinsSortants.keySet()){
+            nbEtapes += 1;
+            //////////////////////////////////////////////////////////////////////
+            // Parcours Degrés Entrants --> Sélectionne le plus petit degré entrant
+            int degreMinValeur = 100; // Capacité de 100 pour pas surcharger
+            String degreMinCle = "";
+            for(Map.Entry<String, Integer> itDegres: degresEntrants.entrySet()){
+               if(itDegres.getValue() < degreMinValeur){
+                   degreMinValeur = itDegres.getValue();
+                   degreMinCle= itDegres.getKey();
+               }
+            }
+            //////////////////////////////////////////////////////////////////////
+            System.out.println("Etape " + nbEtapes + ": Ordre Clé: " + degreMinCle + " Ordre Valeur: " + degreMinValeur);
+            //Ajout du degré sélectionné dans l'ordre
+            ordre.add(degreMinCle);
+            // Recherche du sommet associé au degré dans la liste des voisins sortants
+            ArrayList<String> degresMinVS = new ArrayList<>();
+            for(Map.Entry<String, ArrayList<String>> itVoisinsSortants: voisinsSortants.entrySet()){
+                if(degreMinCle.equals(itVoisinsSortants.getKey())){ // Si le degré existe dans les Voisins Sortants
+                    degresMinVS.addAll(itVoisinsSortants.getValue()); // Ajout des valeurs du degré associées au Voisins Sortants
+                }
+            }
 
+            if(degresMinVS.isEmpty()){ // Si le degré n'est pas dans les VS, alors le supprimer des degrés entrants
+                voisinsSortants.remove(degreMinCle);
+                degresEntrants.remove(degreMinCle);
+            }
+            else {
+                voisinsSortants.remove(degreMinCle);
+                for(String itDegresMVS: degresMinVS){
+                    for(Map.Entry<String, Integer> itDegres: degresEntrants.entrySet()){
+                        if(itDegresMVS.equals(itDegres.getKey())){
+                            int decrementerValeur = itDegres.getValue()-1;
+                            degresEntrants.replace(itDegres.getKey(), itDegres.getValue(), decrementerValeur);
+                        }
+                    }
+                }
+                degresEntrants.remove(degreMinCle);
+
+            }
+            ordre.add(source);
+            /*
+            Placer le degré min dans l'ordre - OK
+            Trouver sommet dans voisins sortants: Arraylist des valeurs associé au sommet - OK
+            Supprimer sommet dans voisins sortants - OK
+            Pour Arraylist<Valeur> dans dégrés entrants: retirer 1 à la valeur -- OK
+            Supprimer sommet des degrés entrants
+             */
+        }
+        ordre.add("Vélizy");
+        System.out.println(ordre);
     }
 }

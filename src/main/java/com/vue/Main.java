@@ -13,7 +13,7 @@ public class Main extends Application {
         root.setStyle("-fx-background-color: #b7e4c7;");
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
-        stage.setTitle("APLI - Saé 2.01");
+        stage.setTitle("APLI - Saé 2.01 / 0.2");
         stage.show();
         stage.setScene(scene);
 

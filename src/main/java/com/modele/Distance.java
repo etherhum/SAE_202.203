@@ -16,51 +16,53 @@ public class Distance implements Chemins {
         try {
             BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierDistance));
             do {
+                // Parcours du fichier distances.txt
                 ligne = bufferEntree.readLine();
                 if (ligne != null) {
                     tokenizer = new StringTokenizer(ligne, " ");
                     while (tokenizer.hasMoreTokens()) {
                         String entier = tokenizer.nextToken();
-                        villes.add(entier);
-                        for (int a = 0; a < 29; a++) {
+                        villes.add(entier); // Ajout du nom de la ville à l'Array
+                        for (int it = 0; it < 29; it++) { // Sauter les 29 distances suivant le nom de la ville
                             tokenizer.nextToken();
                         }
                     }
                 }
             } while (ligne != null);
             bufferEntree.close();
-        } catch (IOException e) {
+        } catch (IOException e) { // En cas d'erreur
             e.printStackTrace();
         }
         return villes;
     }
 
     public static HashMap<ArrayList<String>, Integer> convertirDistance(File fichierDistance) {
-        //////////////////
-        // Retourne un HashMap contenant l'intégralité des combinaisons de distances entre deux villes
-        //////////////////
+        /*
+         * Retourne un HashMap contenant l'intégralité des combinaisons de distances entre deux villes
+         */
         HashMap<ArrayList<String>, Integer> distance = new HashMap<>();
         String ligne;
         StringTokenizer tokenizer;
         ArrayList<String> villes = Distance.listerVilles(new File(CHEMIN_DISTANCE));
         try {
             BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierDistance));
-            int b = 0;
+            int it1 = 0;
             do {
+                // Parcour du fichier distances.txt
                 ligne = bufferEntree.readLine();
                 if (ligne != null) {
                     tokenizer = new StringTokenizer(ligne, " ");
                     tokenizer.nextToken();
-                    int a = 0;
-                    while (a < villes.size()) {
+                    int it2 = 0;
+                    while (it2 < villes.size()) {
                         String entier = tokenizer.nextToken();
                         ArrayList<String> cle = new ArrayList<>();
-                        cle.add(villes.get(b));
-                        cle.add(villes.get(a++));
+                        cle.add(villes.get(it1));
+                        cle.add(villes.get(it2++));
                         distance.put(cle, Integer.parseInt(entier));
                     }
                 }
-                b++;
+                it1++;
             } while (ligne != null);
             bufferEntree.close();
         } catch (IOException e) {
