@@ -21,7 +21,7 @@ public class ScenarioPane extends GridPane implements Chemins {
     private final File membresFichier = new File(CHEMIN_MEMBRES);
     private static HashMap<ArrayList<String>, Integer> distance;
 
-    public ScenarioPane(){
+    public ScenarioPane() {
         // Paramètres
         setAlignment(Pos.CENTER);
         setPadding(new Insets(50, 0, 0, 0));
@@ -92,12 +92,12 @@ public class ScenarioPane extends GridPane implements Chemins {
 
         ScrollPane paneCheminOriginal = new ScrollPane(txtCheminOriginal);
         paneCheminOriginal.setStyle("-fx-background: #d8f3dc;");
-        paneCheminOriginal.setMinSize(350,200);
+        paneCheminOriginal.setMinSize(350, 200);
         paneCheminOriginal.setMaxSize(350, 200);
 
         ScrollPane paneCheminAlgorithme = new ScrollPane(txtCheminAlgorithme);
         paneCheminAlgorithme.setStyle("-fx-background: #d8f3dc;");
-        paneCheminAlgorithme.setMinSize(350,200);
+        paneCheminAlgorithme.setMinSize(350, 200);
         paneCheminAlgorithme.setMaxSize(350, 200);
 
         VBox vBoxChemin = new VBox();
@@ -145,7 +145,7 @@ public class ScenarioPane extends GridPane implements Chemins {
         return nomvilles;
     }
 
-    private static void cheminOriginal(ArrayList<String> nomvilles, Label txtCheminOriginal){
+    private static void cheminOriginal(ArrayList<String> nomvilles, Label txtCheminOriginal) {
         /*
          * Affiche le chemin de base ainsi que sa distance totale, en partant et arrivant à Vélizy
          */
@@ -153,21 +153,21 @@ public class ScenarioPane extends GridPane implements Chemins {
         nomvilles.add(nomvilles.size(), "Velizy");
         String[] resultats = new String[nomvilles.size()];
         int distanceTotale = 0;
-        for(int a=0; a<nomvilles.size()-1; a++){
+        for (int a = 0; a < nomvilles.size() - 1; a++) {
             ArrayList<String> pairVendeurAcheteur = new ArrayList<>();
             pairVendeurAcheteur.add(nomvilles.get(a));
-            pairVendeurAcheteur.add(nomvilles.get(a+1));
-            resultats[a] = nomvilles.get(a) + " -> " + nomvilles.get(a+1) + " | " + distance.get(pairVendeurAcheteur) + "km \n";
+            pairVendeurAcheteur.add(nomvilles.get(a + 1));
+            resultats[a] = nomvilles.get(a) + " -> " + nomvilles.get(a + 1) + " | " + distance.get(pairVendeurAcheteur) + "km \n";
             distanceTotale += distance.get(pairVendeurAcheteur);
         }
-        resultats[nomvilles.size()-1] = "\nTotal: " + distanceTotale + "km";
+        resultats[nomvilles.size() - 1] = "\nTotal: " + distanceTotale + "km";
         txtCheminOriginal.setText(Arrays.toString(resultats)
                 .replace(",", "")
                 .replace("[", " ")
                 .replace("]", ""));
     }
 
-    private static void cheminAlgorithme(ArrayList<String> nomvilles, Label txtCheminAlgorithme){
+    private static void cheminAlgorithme(ArrayList<String> nomvilles, Label txtCheminAlgorithme) {
         /*
         Calcul d'un premier chemin algorithlique,
         en constituant en premier toutes les paires entre toutes les villes des acheteurs
@@ -175,8 +175,8 @@ public class ScenarioPane extends GridPane implements Chemins {
          */
         ArrayList<String> ordonnancement = new ArrayList<>();
         System.out.println(nomvilles);
-        for(int a=0; a<nomvilles.size(); a++){
-            if(a%2!=0){
+        for (int a = 0; a < nomvilles.size(); a++) {
+            if (a % 2 != 0) {
                 ordonnancement.add(nomvilles.get(a));
                 nomvilles.remove(a);
             }
@@ -185,7 +185,7 @@ public class ScenarioPane extends GridPane implements Chemins {
         cheminOriginal(ordonnancement, txtCheminAlgorithme);
     }
 
-    private static void cheminAlgorithmeTest(ArrayList<String> nomvilles){
+    private static void cheminAlgorithmeTest(ArrayList<String> nomvilles) {
         /*
         Méthode supposée remplacer la méthode cheminAlgorithme actuelle, en cours de développement
          */
@@ -196,20 +196,19 @@ public class ScenarioPane extends GridPane implements Chemins {
         ArrayList<String> ordre = new ArrayList<>();
         int nbEtapes = 0; /////A SUPPRIMER
         //Séparer les villes en deux listes: Vendeurs et Acheteurs
-        for(int a=0; a<nomvilles.size(); a++){
-            if(a%2!=0){
+        for (int a = 0; a < nomvilles.size(); a++) {
+            if (a % 2 != 0) {
                 villesAcheteurs.add(nomvilles.get(a));
-            }
-            else{
+            } else {
                 villesVendeurs.add(nomvilles.get(a));
             }
         }
         // Remplissage des Voisins Sortants
-        for(int a=0; a< villesVendeurs.size();a++){
+        for (int a = 0; a < villesVendeurs.size(); a++) {
             ArrayList<String> acheteursParVendeurs = new ArrayList<>();
-            for(int b=0; b<villesAcheteurs.size();b++){
-                if(villesVendeurs.get(a).equals(villesVendeurs.get(b))){
-                    if(a!=b){
+            for (int b = 0; b < villesAcheteurs.size(); b++) {
+                if (villesVendeurs.get(a).equals(villesVendeurs.get(b))) {
+                    if (a != b) {
                         acheteursParVendeurs.add(villesAcheteurs.get(b));
                     }
                 }
@@ -218,23 +217,23 @@ public class ScenarioPane extends GridPane implements Chemins {
             voisinsSortants.put(villesVendeurs.get(a), acheteursParVendeurs);
         }
         // Remplissage de la liste des degrés entrants --> Acheteurs
-        for(String b: villesAcheteurs){
+        for (String b : villesAcheteurs) {
             degresEntrants.put(b, Collections.frequency(villesAcheteurs, b));
         }
         // Début de l'algorithme
         ordre.add("Vélizy");
         // Parcours des Voisins Sortants
-        for(String source: voisinsSortants.keySet()){
+        for (String source : voisinsSortants.keySet()) {
             nbEtapes += 1;
             //////////////////////////////////////////////////////////////////////
             // Parcours Degrés Entrants --> Sélectionne le plus petit degré entrant
             int degreMinValeur = 100; // Capacité de 100 pour pas surcharger
             String degreMinCle = "";
-            for(Map.Entry<String, Integer> itDegres: degresEntrants.entrySet()){
-               if(itDegres.getValue() < degreMinValeur){
-                   degreMinValeur = itDegres.getValue();
-                   degreMinCle= itDegres.getKey();
-               }
+            for (Map.Entry<String, Integer> itDegres : degresEntrants.entrySet()) {
+                if (itDegres.getValue() < degreMinValeur) {
+                    degreMinValeur = itDegres.getValue();
+                    degreMinCle = itDegres.getKey();
+                }
             }
             //////////////////////////////////////////////////////////////////////
             System.out.println("Etape " + nbEtapes + ": Ordre Clé: " + degreMinCle + " Ordre Valeur: " + degreMinValeur);
@@ -242,22 +241,21 @@ public class ScenarioPane extends GridPane implements Chemins {
             ordre.add(degreMinCle);
             // Recherche du sommet associé au degré dans la liste des voisins sortants
             ArrayList<String> degresMinVS = new ArrayList<>();
-            for(Map.Entry<String, ArrayList<String>> itVoisinsSortants: voisinsSortants.entrySet()){
-                if(degreMinCle.equals(itVoisinsSortants.getKey())){ // Si le degré existe dans les Voisins Sortants
+            for (Map.Entry<String, ArrayList<String>> itVoisinsSortants : voisinsSortants.entrySet()) {
+                if (degreMinCle.equals(itVoisinsSortants.getKey())) { // Si le degré existe dans les Voisins Sortants
                     degresMinVS.addAll(itVoisinsSortants.getValue()); // Ajout des valeurs du degré associées au Voisins Sortants
                 }
             }
 
-            if(degresMinVS.isEmpty()){ // Si le degré n'est pas dans les VS, alors le supprimer des degrés entrants
+            if (degresMinVS.isEmpty()) { // Si le degré n'est pas dans les VS, alors le supprimer des degrés entrants
                 voisinsSortants.remove(degreMinCle);
                 degresEntrants.remove(degreMinCle);
-            }
-            else {
+            } else {
                 voisinsSortants.remove(degreMinCle);
-                for(String itDegresMVS: degresMinVS){
-                    for(Map.Entry<String, Integer> itDegres: degresEntrants.entrySet()){
-                        if(itDegresMVS.equals(itDegres.getKey())){
-                            int decrementerValeur = itDegres.getValue()-1;
+                for (String itDegresMVS : degresMinVS) {
+                    for (Map.Entry<String, Integer> itDegres : degresEntrants.entrySet()) {
+                        if (itDegresMVS.equals(itDegres.getKey())) {
+                            int decrementerValeur = itDegres.getValue() - 1;
                             degresEntrants.replace(itDegres.getKey(), itDegres.getValue(), decrementerValeur);
                         }
                     }

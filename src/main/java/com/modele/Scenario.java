@@ -8,16 +8,16 @@ public class Scenario {
     private final List<String> vendeurs;
     private final List<String> acheteurs;
 
-    public Scenario(){
+    public Scenario() {
         vendeurs = new ArrayList<>();
         acheteurs = new ArrayList<>();
     }
 
-    public List<String> getVendeurs(){
+    public List<String> getVendeurs() {
         return vendeurs;
     }
 
-    public List<String> getAcheteurs(){
+    public List<String> getAcheteurs() {
         return acheteurs;
     }
 
@@ -29,13 +29,13 @@ public class Scenario {
         acheteurs.add(string);
     }
 
-    public void addVendeursAcheteurs(String strVendeurs, String strAcheteurs){
+    public void addVendeursAcheteurs(String strVendeurs, String strAcheteurs) {
         addVendeurs(strVendeurs);
         addAcheteurs(strAcheteurs);
     }
 
-    public String toString(){
-        return vendeurs +  "\n" + acheteurs;
+    public String toString() {
+        return vendeurs + "\n" + acheteurs;
     }
 
     public static Scenario listeScenarios(File fichier) throws IOException {

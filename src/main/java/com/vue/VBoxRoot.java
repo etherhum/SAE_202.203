@@ -10,6 +10,7 @@ import java.io.IOException;
 public class VBoxRoot extends VBox implements Chemins {
     private static final MenuItem itemMembresVilles = new MenuItem("Membres");
     private static final MenuItem itemScenarios = new MenuItem("Scénarios");
+
     public VBoxRoot() throws IOException {
         LecturePane membresVillesPane = new LecturePane();
         ScenarioPane scenarioPane = new ScenarioPane();

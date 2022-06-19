@@ -75,9 +75,9 @@ public class Membre {
     }
 
     public ArrayList<String> listeVilles(File fichierMembres) throws IOException {
-        //////////////////
-        // Lire le fichier membre et retourner une ArrayList<String> des villes stylisée pour rentrer dans le textArea
-        //////////////////
+        /*
+        Lire le fichier membre et retourner un Array des villes stylisées pour rentrer dans le textArea
+         */
         BufferedReader bufferEntree = new BufferedReader(new FileReader(fichierMembres));
         String ligne;
         StringTokenizer tokenizer;

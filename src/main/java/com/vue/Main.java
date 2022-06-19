@@ -16,9 +16,9 @@ public class Main extends Application {
         stage.setTitle("APLI - Saé 2.01 / 0.2");
         stage.show();
         stage.setScene(scene);
-
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Application.launch(args);
     }
 

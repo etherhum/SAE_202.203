@@ -27,9 +27,9 @@ public class LecturePane extends GridPane implements Chemins {
         labelMembres.setStyle("-fx-font: 24 arial;");
         Label listeMembres = new Label(membre.listeMembres(membresFichier).toString()
                 .replace(" ", "")
-                .replace(",","")
-                .replace("[","")
-                .replace("]",""));
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", ""));
         listeMembres.setFocusTraversable(false);
         listeMembres.setMinSize(150, 1400);
         listeMembres.setWrapText(true);
@@ -44,9 +44,9 @@ public class LecturePane extends GridPane implements Chemins {
         labelVilles.setStyle("-fx-font: 24 arial;");
         Label listeVilles = new Label(membre.listeVilles(membresFichier).toString()
                 .replace(" ", "")
-                .replace(",","")
-                .replace("[","")
-                .replace("]","")
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", "")
                 .replace("_", " "));
         listeVilles.setFocusTraversable(false);
         listeVilles.setMinSize(150, 1400);
@@ -55,8 +55,8 @@ public class LecturePane extends GridPane implements Chemins {
         paneVille.setMinSize(200, 300);
         paneVille.setStyle("-fx-background: #d8f3dc;");
 
-        add(labelMembres,0,1);
-        add(paneMembres,0,2);
+        add(labelMembres, 0, 1);
+        add(paneMembres, 0, 2);
         add(labelVilles, 1, 1);
         add(paneVille, 1, 2);
     }
